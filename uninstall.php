@@ -2,17 +2,18 @@
 
 class AlepropertyUninstall {
   public function run() {
-    $this->delete_posts();
+    $this->delete_posts('property');
+    $this->delete_posts('agent');
   }
 
-  private function delete_posts() {
-    $properties = get_posts([
-      'post_type' => 'property',
+  private function delete_posts(string $post_type) {
+    $posts = get_posts([
+      'post_type' => $post_type,
       'numberposts' => -1
     ]);
 
-    foreach ($properties as $property) {
-      wp_delete_post($property->ID, true);
+    foreach ($posts as $post) {
+      wp_delete_post($post->ID, true);
     }
   }
 }

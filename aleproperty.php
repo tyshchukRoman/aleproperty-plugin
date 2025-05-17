@@ -16,16 +16,30 @@ if(!defined('ABSPATH')) {
 
 class Aleproperty {
   public function register() {
-    add_action('init', [$this, 'custom_post_type']);
+    add_action('init', [$this, 'custom_post_types']);
   }
 
-  public function custom_post_type() {
+  public function custom_post_types() {
+    /*
+     * CPT "property"
+     */
     register_post_type('property', [
       'public' => true,
       'has_archive' => true,
       'rewrite' => ['slug' => 'properties'],
       'supports' => ['title', 'editor', 'thumbnail'],
       'label' => 'Properties',
+    ]);
+    
+    /*
+     * CPT "agent"
+     */
+    register_post_type('agent', [
+      'public' => true,
+      'has_archive' => true,
+      'rewrite' => ['slug' => 'agents'],
+      'supports' => ['title', 'editor', 'thumbnail'],
+      'label' => 'Agents',
     ]);
   }
 
