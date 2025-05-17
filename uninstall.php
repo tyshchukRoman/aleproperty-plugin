@@ -6,10 +6,10 @@ class AlepropertyUninstall {
   }
 
   private function delete_posts() {
-    $properties = get_posts(
+    $properties = get_posts([
       'post_type' => 'property',
       'numberposts' => -1
-    );
+    ]);
 
     foreach ($properties as $property) {
       wp_delete_post($property->ID, true);
