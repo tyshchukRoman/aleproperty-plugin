@@ -8,6 +8,7 @@
  * Author URI: #
  * License: GPLv2 or later
  * Text Domain: aleproperty
+ * Domain Path: /lang
  */
 
 if(!defined('ABSPATH')) {
@@ -51,11 +52,17 @@ class Aleproperty {
     add_action('init', [$this->taxonomies, 'register']);
     add_action('init', [$this->metaboxes, 'register']);
     add_action('init', [$this->assets, 'register']);
+
+    add_action('plugins_loaded', [$this, 'load_text_domain']);
   }
 
   private function hooks() {
     register_activation_hook(__FILE__, [$this, 'activation']);
     register_deactivation_hook(__FILE__, [$this, 'deactivation']);
+  }
+
+  public function load_text_domain() {
+    load_plugin_textdomain('aleproperty', false, dirname(plugin_basename(__FILE__)) . '/lang');
   }
 
   public function activation() {

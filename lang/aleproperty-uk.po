@@ -1,0 +1,82 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Aleproperty\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-05-18 12:47+0000\n"
+"PO-Revision-Date: 2025-05-18 12:50+0000\n"
+"Last-Translator: \n"
+"Language-Team: Українська\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && "
+"n%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.7.2; wp-6.8.1\n"
+"X-Domain: aleproperty"
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "#"
+msgstr "#"
+
+#: inc/AlepropertyMetaboxes.php:62
+msgid "Agent"
+msgstr "Агент"
+
+#: inc/AlepropertyPostTypes.php:35
+msgid "Agents"
+msgstr "Агенти"
+
+#. Name of the plugin
+msgid "Aleproperty"
+msgstr "Aleproperty"
+
+#. Description of the plugin
+msgid "Aleproperty is a plugin for property menagement"
+msgstr "Aleproperty - це плагін для менеджменту об'єктів нерухомості"
+
+#: inc/AlepropertyMetaboxes.php:56
+msgid "For Rent"
+msgstr "Для Здачі"
+
+#: inc/AlepropertyMetaboxes.php:55
+msgid "For Sale"
+msgstr "Для Продажу"
+
+#: inc/AlepropertyTaxonomies.php:23
+msgid "Location"
+msgstr "Локація"
+
+#: inc/AlepropertyMetaboxes.php:47
+msgid "Period"
+msgstr "Період"
+
+#: inc/AlepropertyMetaboxes.php:42
+msgid "Price"
+msgstr "Ціна"
+
+#: inc/AlepropertyPostTypes.php:22
+msgid "Properties"
+msgstr "Об'єкти"
+
+#: inc/AlepropertyMetaboxes.php:64
+msgid "Select Agent"
+msgstr "Оберіть Агента"
+
+#: inc/AlepropertyMetaboxes.php:54
+msgid "Select Type"
+msgstr "Оберіть Тип"
+
+#: inc/AlepropertyMetaboxes.php:57
+msgid "Sold"
+msgstr "Продано"
+
+#: inc/AlepropertyTaxonomies.php:37 inc/AlepropertyMetaboxes.php:52
+msgid "Type"
+msgstr "Тип"
+
+#. Author of the plugin
+msgid "tyshchukRoman"
+msgstr "tyshchukRoman"
