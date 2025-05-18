@@ -18,20 +18,27 @@ if(!defined('ALEPROPERTY_PATH')) {
   define('ALEPROPERTY_PATH', plugin_dir_path(__FILE__));
 }
 
+if(!defined('ALEPROPERTY_URI')) {
+  define('ALEPROPERTY_URI', plugins_url('/', __FILE__));
+}
+
 require_once ALEPROPERTY_PATH . '/inc/AlepropertyPostTypes.php';
 require_once ALEPROPERTY_PATH . '/inc/AlepropertyTaxonomies.php';
 require_once ALEPROPERTY_PATH . '/inc/AlepropertyMetaboxes.php';
+require_once ALEPROPERTY_PATH . '/inc/AlepropertyAssets.php';
 
 
 class Aleproperty {
   private AlepropertyPostTypes $post_types;
   private AlepropertyTaxonomies $taxonomies;
   private AlepropertyMetaboxes $metaboxes;
+  private AlepropertyAssets $assets;
 
   public function __construct(){
     $this->post_types = new AlepropertyPostTypes();
     $this->taxonomies = new AlepropertyTaxonomies();
     $this->metaboxes = new AlepropertyMetaboxes();
+    $this->assets = new AlepropertyAssets();
   }
 
   public function run() {
@@ -43,6 +50,7 @@ class Aleproperty {
     add_action('init', [$this->post_types, 'register']);
     add_action('init', [$this->taxonomies, 'register']);
     add_action('init', [$this->metaboxes, 'register']);
+    add_action('init', [$this->assets, 'register']);
   }
 
   private function hooks() {
