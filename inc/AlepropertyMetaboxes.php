@@ -40,12 +40,12 @@ class AlepropertyMetaboxes {
 
       <p>
         <label for="aleproperty_price"><?php _e('Price', 'aleproperty') ?></label>
-        <input type="number" id="aleproperty_price" name="aleproperty_price" value="<?php echo $price ?>" />
+        <input type="number" id="aleproperty_price" name="aleproperty_price" value="<?php echo esc_attr($price) ?>" />
       </p>
 
       <p>
         <label for="aleproperty_period"><?php _e('Period', 'aleproperty') ?></label>
-        <input type="text" id="aleproperty_period" name="aleproperty_period" value="<?php echo $period ?>" />
+        <input type="text" id="aleproperty_period" name="aleproperty_period" value="<?php echo esc_attr($period) ?>" />
       </p>
 
       <p>
@@ -63,8 +63,8 @@ class AlepropertyMetaboxes {
         <select id="aleproperty_agent" name="aleproperty_agent">
           <option value=""><?php _e('Select Agent', 'aleproperty') ?></option>
           <?php foreach($agents as $agent): ?>
-            <option value="<?php echo $agent->ID ?>" <?php selected($agent->ID, $agent_id) ?>>
-              <?php echo $agent->post_title ?>
+            <option value="<?php echo esc_attr($agent->ID) ?>" <?php selected($agent->ID, $agent_id) ?>>
+              <?php echo esc_html(agent->post_title) ?>
             </option>
           <?php endforeach; ?>
         </select>

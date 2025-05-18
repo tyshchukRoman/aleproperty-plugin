@@ -17,10 +17,10 @@ class AlepropertyTaxonomies {
     register_taxonomy('location', 'property', [
       'hierarchical' => true,
       'show_ui' => true,
-      'show_admin_column' => true,
       'query_var' => true,
+      'show_admin_column' => true,
       'rewrite' => ['slug' => 'properties/location'],
-      'label' => 'Location'
+      'label' => __('Location', 'aleproperty')
     ]);
   }
 
@@ -31,10 +31,10 @@ class AlepropertyTaxonomies {
     register_taxonomy('property-type', 'property', [
       'hierarchical' => true,
       'show_ui' => true,
-      'show_admin_column' => true,
       'query_var' => true,
+      'show_admin_column' => true,
       'rewrite' => ['slug' => 'properties/type'],
-      'label' => 'Type'
+      'label' => __('Type', 'aleproperty')
     ]);
   }
 
