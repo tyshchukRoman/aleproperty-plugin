@@ -23,10 +23,16 @@ if(!defined('ALEPROPERTY_URI')) {
   define('ALEPROPERTY_URI', plugins_url('/', __FILE__));
 }
 
-require_once ALEPROPERTY_PATH . '/inc/AlepropertyPostTypes.php';
-require_once ALEPROPERTY_PATH . '/inc/AlepropertyTaxonomies.php';
-require_once ALEPROPERTY_PATH . '/inc/AlepropertyMetaboxes.php';
-require_once ALEPROPERTY_PATH . '/inc/AlepropertyAssets.php';
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-post-types.php';
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-taxonomies.php';
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-metaboxes.php';
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-assets.php';
+
+// template loader
+if ( ! class_exists( 'Gamajo_Template_Loader' ) ) {
+  require_once ALEPROPERTY_PATH . '/inc/class-gamajo-template-loader.php';
+}
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-template-loader.php';
 
 
 class Aleproperty {
@@ -34,12 +40,14 @@ class Aleproperty {
   private AlepropertyTaxonomies $taxonomies;
   private AlepropertyMetaboxes $metaboxes;
   private AlepropertyAssets $assets;
+  private AlepropertyTemplateLoader $templates;
 
   public function __construct(){
     $this->post_types = new AlepropertyPostTypes();
     $this->taxonomies = new AlepropertyTaxonomies();
     $this->metaboxes = new AlepropertyMetaboxes();
     $this->assets = new AlepropertyAssets();
+    $this->templates = new AlepropertyTemplateLoader();
   }
 
   public function run() {
@@ -52,6 +60,7 @@ class Aleproperty {
     add_action('init', [$this->taxonomies, 'register']);
     add_action('init', [$this->metaboxes, 'register']);
     add_action('init', [$this->assets, 'register']);
+    add_action('init', [$this->templates, 'register']);
 
     add_action('plugins_loaded', [$this, 'load_text_domain']);
   }
