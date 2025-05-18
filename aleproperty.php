@@ -14,33 +14,40 @@ if(!defined('ABSPATH')) {
   die;
 }
 
+if(!defined('ALEPROPERTY_PATH')) {
+  define('ALEPROPERTY_PATH', plugin_dir_path(__FILE__));
+}
+
+require_once ALEPROPERTY_PATH . '/inc/AlepropertyPostTypes.php';
+require_once ALEPROPERTY_PATH . '/inc/AlepropertyTaxonomies.php';
+require_once ALEPROPERTY_PATH . '/inc/AlepropertyMetaboxes.php';
+
+
 class Aleproperty {
-  public function register() {
-    add_action('init', [$this, 'custom_post_types']);
+  private AlepropertyPostTypes $post_types;
+  private AlepropertyTaxonomies $taxonomies;
+  private AlepropertyMetaboxes $metaboxes;
+
+  public function __construct(){
+    $this->post_types = new AlepropertyPostTypes();
+    $this->taxonomies = new AlepropertyTaxonomies();
+    $this->metaboxes = new AlepropertyMetaboxes();
   }
 
-  public function custom_post_types() {
-    /*
-     * CPT "property"
-     */
-    register_post_type('property', [
-      'public' => true,
-      'has_archive' => true,
-      'rewrite' => ['slug' => 'properties'],
-      'supports' => ['title', 'editor', 'thumbnail'],
-      'label' => 'Properties',
-    ]);
-    
-    /*
-     * CPT "agent"
-     */
-    register_post_type('agent', [
-      'public' => true,
-      'has_archive' => true,
-      'rewrite' => ['slug' => 'agents'],
-      'supports' => ['title', 'editor', 'thumbnail'],
-      'label' => 'Agents',
-    ]);
+  public function run() {
+    $this->actions();
+    $this->hooks();
+  }
+
+  private function actions() {
+    add_action('init', [$this->post_types, 'register']);
+    add_action('init', [$this->taxonomies, 'register']);
+    add_action('init', [$this->metaboxes, 'register']);
+  }
+
+  private function hooks() {
+    register_activation_hook(__FILE__, [$this, 'activation']);
+    register_deactivation_hook(__FILE__, [$this, 'deactivation']);
   }
 
   public function activation() {
@@ -55,9 +62,6 @@ class Aleproperty {
 if(class_exists('Aleproperty')) {
 
   $aleproperty = new Aleproperty();
-
-  $aleproperty->register();
-
-  register_activation_hook(__FILE__, [$aleproperty, 'activation']);
-  register_deactivation_hook(__FILE__, [$aleproperty, 'deactivation']);
+  $aleproperty->run();
+  
 }
