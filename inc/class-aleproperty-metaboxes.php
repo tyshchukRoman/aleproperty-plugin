@@ -64,7 +64,7 @@ class AlepropertyMetaboxes {
           <option value=""><?php _e('Select Agent', 'aleproperty') ?></option>
           <?php foreach($agents as $agent): ?>
             <option value="<?php echo esc_attr($agent->ID) ?>" <?php selected($agent->ID, $agent_id) ?>>
-              <?php echo esc_html(agent->post_title) ?>
+              <?php echo esc_html($agent->post_title) ?>
             </option>
           <?php endforeach; ?>
         </select>

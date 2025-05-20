@@ -1,0 +1,44 @@
+/*
+ * Layouts
+ */
+.container {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--stack-spacing, 1rem);
+}
+
+.flow > * + * {
+  margin-block-start: var(--flow-spacing, 1rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--grid-placement, auto-fill),
+    minmax(var(--grid-min-item-size, 20rem), 1fr)
+  );
+  gap: var(---grid-gap, 1rem);
+}
+
+
+/*
+ * Property Card
+ */
+.property {
+  --stack-spacing: 0.5rem;
+}
+
+
+/*
+ * Single Property
+ */
+.single-property {
+  --flow-spacing: 2rem;
+}
