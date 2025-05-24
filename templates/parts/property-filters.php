@@ -7,9 +7,14 @@ $location = isset($_GET['location']) ? sanitize_text_field($_GET['location']) : 
 
 $parent_locations = get_terms(['taxonomy' => 'location', 'hide_empty' => false, 'parent' => 0]);
 
+$options = get_option('aleproperty_settings_options');
+$filter_title_value = isset($options['filter_title']) ? $options['filter_title'] : '';
+
 ?>
 
 <div class="property-filters">
+  <h4><?php esc_html_e($filter_title_value) ?></h4>
+
   <form method="GET" action="<?php echo get_post_type_archive_link('property') ?>" class="cluster">
 
     <p>

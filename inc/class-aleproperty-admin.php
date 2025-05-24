@@ -20,4 +20,5 @@ class AlepropertyAdmin {
   public function admin_page_html() {
     require_once ALEPROPERTY_PATH . '/admin/welcome.php';
   }
+
 }
