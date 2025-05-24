@@ -27,6 +27,14 @@
   gap: var(---grid-gap, 1rem);
 }
 
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap, 1rem);
+  justify-content: var(--cluster-justify, flex-start);
+  align-items: var(--cluster-align, center);
+}
+
 
 /*
  * Property Card
@@ -41,4 +49,12 @@
  */
 .single-property {
   --flow-spacing: 2rem;
+}
+
+
+/*
+ * Property Filters
+ */
+.property-filters {
+  margin-bottom: 2rem;
 }

@@ -1,66 +1,85 @@
 <?php get_header(); ?>
 
 <div class="container archive-property">
+  <?php $aleproperty->templateLoader()->get_template_part('parts/property-filters'); ?>
 
-  <?php if(have_posts()) : ?>
+  <div class="grid">
 
-    <div class="grid">
-      <?php while (have_posts()): the_post(); ?>
+    <?php 
+      /*
+       * Filtered Query
+       */
+      if(!empty($_GET['submit'])) {
 
-        <article id="property-<?php the_ID() ?>" <?php post_class('property stack') ?>>
-          <?php
-            $price = esc_html(get_post_meta(get_the_ID(), 'aleproperty_price', true));
-            $type = esc_html(get_post_meta(get_the_ID(), 'aleproperty_type', true));
-            $agent = get_post(esc_html(get_post_meta(get_the_ID(), 'aleproperty_agent', true)))->post_title;
+        $args = [
+          'post_type' => 'property',
+          'posts_per_page' => -1,
+          'meta_query' => ['relation' => 'AND'],
+          'tax_query' => ['relation' => 'AND'],
+        ];
 
-            $location_terms = get_terms('location');
-            $locations = array_reduce($location_terms, fn($res, $location) => $res .= "$location->name, ", '');
-            $locations = rtrim($locations, ', ');
-          ?>
+        $fields = [
+          [
+            'name' => 'type',
+            'key' => 'aleproperty_type',
+            'value' => isset($_GET['type']) ? sanitize_text_field($_GET['type']) : null,
+            'compare' => '=',
+            'type' => 'CHAR'
+          ],
+          [
+            'name' => 'min_price',
+            'key' => 'aleproperty_price',
+            'value' => isset($_GET['min_price']) ? sanitize_text_field($_GET['min_price']) : null,
+            'compare' => '>=',
+            'type' => 'NUMERIC'
+          ],
+          [
+            'name' => 'max_price',
+            'key' => 'aleproperty_price',
+            'value' => isset($_GET['max_price']) ? sanitize_text_field($_GET['max_price']) : null,
+            'compare' => '<=',
+            'type' => 'NUMERIC'
+          ],
+        ];
 
-          <?php if(has_post_thumbnail()): ?>
-            <?php the_post_thumbnail() ?>
-          <?php endif; ?>
+        foreach ($fields as $field) {
+          if(!empty($_GET[$field['name']])) {
+            $args['meta_query'][] = [
+              'name' => $field['name'],
+              'key' => $field['key'],
+              'value' => $field['value'],
+              'compare' => $field['compare'],
+              'type' => $field['type']
+            ];
+          }
+        }
 
-          <?php if(get_the_title()): ?>
-            <a href="<?php the_permalink() ?>">
-              <h3>
-                <?php the_title() ?>
-              </h3>
-            </a>
-          <?php endif; ?>
+        $properties = new WP_Query($args);
 
-          <?php if(has_excerpt()): ?>
-            <div class="property__description">
-              <?php the_excerpt() ?>
-            </div>
-          <?php endif; ?>
+        if($properties->have_posts()) {
+          while ($properties->have_posts()) {
+            $properties->the_post();
+            $aleproperty->templateLoader()->get_template_part('parts/property-card');
+          }
+        } else {
+          _e('No posts found', 'aleproperty');
+        }
+      } 
 
-          <div class="property__info">
-            <div class="property__price">
-              <?php _e('Price:', 'aleproperty'); echo " $price$"; ?>
-            </div>
-            <div class="property__type">
-              <?php _e('Type:', 'aleproperty'); echo " $type"; ?>
-            </div>
-            <div class="property__agent">
-              <?php _e('Agent:', 'aleproperty'); echo " $agent"; ?>
-            </div>
-            <div class="property__location">
-              <?php _e('Location:', 'aleproperty'); echo " $locations"; ?>
-            </div>
-          </div>
-        </article>
+      /*
+       * Initial Query
+       */
+      else if(have_posts()) {
+        while (have_posts()) {
+          the_post();
+          $aleproperty->templateLoader()->get_template_part('parts/property-card');
+        } 
+      } else {
+        _e('No posts found', 'aleproperty');
+      }
+    ?>
 
-      <?php endwhile; ?>
-    </div>
-
-  <?php else : ?>
-
-    <?php _e('No properties') ?>
-
-  <?php endif; ?>
-
+  </div>
 </div>
 
 <?php get_footer(); ?>

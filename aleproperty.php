@@ -34,20 +34,19 @@ if ( ! class_exists( 'Gamajo_Template_Loader' ) ) {
 }
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-template-loader.php';
 
-
 class Aleproperty {
   private AlepropertyPostTypes $post_types;
   private AlepropertyTaxonomies $taxonomies;
   private AlepropertyMetaboxes $metaboxes;
   private AlepropertyAssets $assets;
-  private AlepropertyTemplateLoader $templates;
+  private AlepropertyTemplateLoader $templateLoader;
 
   public function __construct(){
     $this->post_types = new AlepropertyPostTypes();
     $this->taxonomies = new AlepropertyTaxonomies();
     $this->metaboxes = new AlepropertyMetaboxes();
     $this->assets = new AlepropertyAssets();
-    $this->templates = new AlepropertyTemplateLoader();
+    $this->templateLoader = new AlepropertyTemplateLoader();
   }
 
   public function run() {
@@ -55,12 +54,16 @@ class Aleproperty {
     $this->hooks();
   }
 
+  public function templateLoader(): AlepropertyTemplateLoader {
+    return $this->templateLoader;
+  }
+
   private function actions() {
     add_action('init', [$this->post_types, 'register']);
     add_action('init', [$this->taxonomies, 'register']);
     add_action('init', [$this->metaboxes, 'register']);
     add_action('init', [$this->assets, 'register']);
-    add_action('init', [$this->templates, 'register']);
+    add_action('init', [$this->templateLoader, 'register']);
 
     add_action('plugins_loaded', [$this, 'load_text_domain']);
   }
