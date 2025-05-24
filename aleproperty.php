@@ -29,6 +29,7 @@ require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-metaboxes.php';
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-assets.php';
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-shortcodes.php';
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-filters-widget.php';
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-admin.php';
 
 // template loader
 if ( ! class_exists( 'Gamajo_Template_Loader' ) ) {
@@ -44,6 +45,7 @@ class Aleproperty {
   private AlepropertyTemplateLoader $templateLoader;
   private AlepropertyShortcodes $shortcodes;
   private AlepropertyFiltersWidget $filtersWidget;
+  private AlepropertyAdmin $admin;
 
   public function __construct(){
     $this->post_types = new AlepropertyPostTypes();
@@ -53,15 +55,13 @@ class Aleproperty {
     $this->templateLoader = new AlepropertyTemplateLoader();
     $this->shortcodes = new AlepropertyShortcodes(new AlepropertyTemplateLoader());
     $this->filtersWidget = new AlepropertyFiltersWidget;
+    $this->admin = new AlepropertyAdmin;
   }
 
   public function run() {
     $this->actions();
+    $this->filters();
     $this->hooks();
-  }
-
-  public function templateLoader(): AlepropertyTemplateLoader {
-    return $this->templateLoader;
   }
 
   private function actions() {
@@ -71,10 +71,13 @@ class Aleproperty {
     add_action('init', [$this->assets, 'register']);
     add_action('init', [$this->templateLoader, 'register']);
     add_action('init', [$this->shortcodes, 'register']);
-
+    add_action('admin_menu', [$this->admin, 'register']);
     add_action('widgets_init', [$this->filtersWidget, 'register']);
-
     add_action('plugins_loaded', [$this, 'load_text_domain']);
+  }
+
+  private function filters() {
+    add_filter('plugin_action_links_' . plugin_basename(__FILE__), [$this, 'add_plugin_settings_link']);
   }
 
   private function hooks() {
@@ -92,6 +95,16 @@ class Aleproperty {
 
   public function deactivation() {
     flush_rewrite_rules();
+  }
+
+  public function templateLoader(): AlepropertyTemplateLoader {
+    return $this->templateLoader;
+  }
+
+  public function add_plugin_settings_link($link) {
+    $settings_link = '<a href="admin.php?page=aleproperty_settings">' . esc_html__('Settings', 'aleproperty') . '</a>';
+    $link[] = $settings_link;
+    return $link;
   }
 }
 
