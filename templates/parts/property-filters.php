@@ -3,11 +3,36 @@
 $type = isset($_GET['type']) ? sanitize_text_field($_GET['type']) : null;
 $min_price = isset($_GET['min_price']) ? sanitize_text_field($_GET['min_price']) : null;
 $max_price = isset($_GET['max_price']) ? sanitize_text_field($_GET['max_price']) : null;
+$location = isset($_GET['location']) ? sanitize_text_field($_GET['location']) : null;
+
+$parent_locations = get_terms(['taxonomy' => 'location', 'hide_empty' => false, 'parent' => 0]);
 
 ?>
 
 <div class="property-filters">
   <form method="GET" action="<?php echo get_post_type_archive_link('property') ?>" class="cluster">
+
+    <p>
+      <label for="location"><?php _e('Location', 'aleproperty') ?></label>
+      <select id="location" name="location">
+        <option value=""><?php _e('Select Location', 'aleproperty') ?></option>
+        <?php foreach ($parent_locations as $parent_location): ?>
+          <option value="<?php esc_attr_e($parent_location->slug) ?>" <?php selected($parent_location->slug, $location) ?>>
+            <?php esc_html_e($parent_location->name) ?>
+          </option>
+
+          <?php 
+
+          $child_locations = get_terms(['taxonomy' => 'location', 'hide_empty' => false, 'parent' => $parent_location->term_id]);
+
+          foreach ($child_locations as $child_location): ?>
+            <option value="<?php esc_attr_e($child_location->slug) ?>" <?php selected($child_location->slug, $location) ?>>
+              <?php echo '- ' . esc_html($child_location->name) ?>
+            </option>
+          <?php endforeach; ?>
+        <?php endforeach; ?>
+      </select>
+    </p>
 
     <p>
       <label for="type"><?php _e('Type', 'aleproperty') ?></label>

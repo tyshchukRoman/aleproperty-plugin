@@ -18,7 +18,7 @@
           'tax_query' => ['relation' => 'AND'],
         ];
 
-        $fields = [
+        $meta_fields = [
           [
             'name' => 'type',
             'key' => 'aleproperty_type',
@@ -41,8 +41,17 @@
             'type' => 'NUMERIC'
           ],
         ];
+        
+        $tax_fields = [
+          [
+            'name' => 'location',
+            'taxonomy' => 'location',
+            'field' => 'slug',
+            'terms' => isset($_GET['location']) ? sanitize_text_field($_GET['location']) : null,
+          ]
+        ];
 
-        foreach ($fields as $field) {
+        foreach ($meta_fields as $field) {
           if(!empty($_GET[$field['name']])) {
             $args['meta_query'][] = [
               'name' => $field['name'],
@@ -50,6 +59,16 @@
               'value' => $field['value'],
               'compare' => $field['compare'],
               'type' => $field['type']
+            ];
+          }
+        }
+
+        foreach ($tax_fields as $field) {
+          if(!empty($_GET[$field['name']])) {
+            $args['tax_query'][] = [
+              'taxonomy' => $field['taxonomy'],
+              'field' => $field['field'],
+              'terms' => $field['terms']
             ];
           }
         }
