@@ -27,6 +27,7 @@ require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-post-types.php';
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-taxonomies.php';
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-metaboxes.php';
 require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-assets.php';
+require_once ALEPROPERTY_PATH . '/inc/class-aleproperty-shortcodes.php';
 
 // template loader
 if ( ! class_exists( 'Gamajo_Template_Loader' ) ) {
@@ -40,6 +41,7 @@ class Aleproperty {
   private AlepropertyMetaboxes $metaboxes;
   private AlepropertyAssets $assets;
   private AlepropertyTemplateLoader $templateLoader;
+  private AlepropertyShortcodes $shortcodes;
 
   public function __construct(){
     $this->post_types = new AlepropertyPostTypes();
@@ -47,6 +49,7 @@ class Aleproperty {
     $this->metaboxes = new AlepropertyMetaboxes();
     $this->assets = new AlepropertyAssets();
     $this->templateLoader = new AlepropertyTemplateLoader();
+    $this->shortcodes = new AlepropertyShortcodes(new AlepropertyTemplateLoader());
   }
 
   public function run() {
@@ -64,6 +67,7 @@ class Aleproperty {
     add_action('init', [$this->metaboxes, 'register']);
     add_action('init', [$this->assets, 'register']);
     add_action('init', [$this->templateLoader, 'register']);
+    add_action('init', [$this->shortcodes, 'register']);
 
     add_action('plugins_loaded', [$this, 'load_text_domain']);
   }
